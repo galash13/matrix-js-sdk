@@ -60,6 +60,8 @@ export interface IPowerLevelsContent {
     // eslint-disable-next-line camelcase
     state_default?: number;
     ban?: number;
+    historical?: number;
+    invite?: number;
     kick?: number;
     redact?: number;
 }
@@ -800,7 +802,7 @@ export class RoomState extends TypedEventEmitter<EmittedEvents, EventHandlerMap>
      * @param powerLevel - The power level of the member
      * @returns true if the given power level is sufficient
      */
-    public hasSufficientPowerLevelFor(action: "ban" | "kick" | "redact", powerLevel: number): boolean {
+    public hasSufficientPowerLevelFor(action: keyof Omit<IPowerLevelsContent, "events" | "users">, powerLevel: number): boolean {
         const powerLevelsEvent = this.getStateEvents(EventType.RoomPowerLevels, "");
 
         let powerLevels: IPowerLevelsContent = {};
